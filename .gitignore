@@ -1,0 +1,10 @@
+# folders
+evaluation-results/
+fine-tuned-models/
+generated-images/
+target-complex-images/
+target-images/
+
+# files
+README.md
+report.pdf
