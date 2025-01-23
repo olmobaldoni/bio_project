@@ -11,13 +11,18 @@ def run_more_self_eval(method_name, checkpoint_steps=None):
     # this is to provide a baseline for the evaluation
 
     if checkpoint_steps is not None:
-        results_file = open(f"../evaluation-results/{method_name}-more-self-step-{checkpoint_steps}.txt", "w")
+        results_file = open(
+            f"../evaluation-results/{method_name}-more-self-step-{checkpoint_steps}.txt",
+            "w",
+        )
     else:
         results_file = open(f"../evaluation-results/{method_name}-more-self.txt", "w")
 
     results_file.write("prompt-type,target-name,avg-fid,avg-clip\n")
 
-    print(f"Running self evaluation for {method_name} with checkpoint steps {checkpoint_steps}...")
+    print(
+        f"Running self evaluation for {method_name} with checkpoint steps {checkpoint_steps}..."
+    )
 
     target_dir = "../target-images"
     target_names = os.listdir(target_dir)
@@ -43,7 +48,9 @@ def run_more_self_eval(method_name, checkpoint_steps=None):
 
         prompt_overall_fid /= len(target_names)
         prompt_overall_clip /= len(target_names)
-        results_file.write(f"{prompt},overall,{prompt_overall_fid},{prompt_overall_clip}\n")
+        results_file.write(
+            f"{prompt},overall,{prompt_overall_fid},{prompt_overall_clip}\n"
+        )
 
         overall_fid += prompt_overall_fid
         overall_clip += prompt_overall_clip
@@ -51,7 +58,9 @@ def run_more_self_eval(method_name, checkpoint_steps=None):
     overall_fid /= len(edit_prompts)
     overall_clip /= len(edit_prompts)
 
-    results_file.write(f"edit,overall,{overall_fid},{overall_clip}\n")  # overall image similarity scores
+    results_file.write(
+        f"edit,overall,{overall_fid},{overall_clip}\n"
+    )  # overall image similarity scores
 
     print("Finished edit prompt evaluation.")
 

@@ -8,7 +8,9 @@ import fid
 
 def run_eval(method_name, checkpoint_steps=None):
     if checkpoint_steps is not None:
-        results_file = open(f"../evaluation-results/{method_name}-step-{checkpoint_steps}.txt", "w")
+        results_file = open(
+            f"../evaluation-results/{method_name}-step-{checkpoint_steps}.txt", "w"
+        )
     else:
         results_file = open(f"../evaluation-results/{method_name}.txt", "w")
     results_file.write("prompt-type,target-name,avg-fid,avg-clip\n")
@@ -16,7 +18,9 @@ def run_eval(method_name, checkpoint_steps=None):
     if checkpoint_steps:
         generated_dir += f"-step-{checkpoint_steps}"
 
-    print(f"Running evaluation for {method_name} with checkpoint steps {checkpoint_steps}...")
+    print(
+        f"Running evaluation for {method_name} with checkpoint steps {checkpoint_steps}..."
+    )
     print(f"Writing results to {results_file.name}...")
 
     # compute FID and CLIP scores for basic prompt
@@ -37,7 +41,9 @@ def run_eval(method_name, checkpoint_steps=None):
 
     overall_fid /= len(target_names)
     overall_clip /= len(target_names)
-    results_file.write(f"basic,overall,{overall_fid},{overall_clip}\n")  # overall image similarity scores
+    results_file.write(
+        f"basic,overall,{overall_fid},{overall_clip}\n"
+    )  # overall image similarity scores
 
     print("Finished basic prompt evaluation.")
 
@@ -62,14 +68,18 @@ def run_eval(method_name, checkpoint_steps=None):
 
         prompt_overall_fid /= len(target_names)
         prompt_overall_clip /= len(target_names)
-        results_file.write(f"{prompt},overall,{prompt_overall_fid},{prompt_overall_clip}\n")
+        results_file.write(
+            f"{prompt},overall,{prompt_overall_fid},{prompt_overall_clip}\n"
+        )
 
         overall_fid += prompt_overall_fid
         overall_clip += prompt_overall_clip
 
     overall_fid /= len(edit_prompts)
     overall_clip /= len(edit_prompts)
-    results_file.write(f"edit,overall,{overall_fid},{overall_clip}\n")  # overall text similarity scores
+    results_file.write(
+        f"edit,overall,{overall_fid},{overall_clip}\n"
+    )  # overall text similarity scores
 
     print("Finished complex prompt evaluation.")
 
@@ -77,11 +87,19 @@ def run_eval(method_name, checkpoint_steps=None):
 
 
 if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser(description="Compute evaluation metrics for a given method and checkpoint step.")
-    parser.add_argument("--method_name", type=str, help="Name of the method used for generating images.")
-    parser.add_argument("--checkpoint_steps", type=int, required=False, default=None, help="Number of steps used for "
-                                                                                           "training the model.")
+    parser = argparse.ArgumentParser(
+        description="Compute evaluation metrics for a given method and checkpoint step."
+    )
+    parser.add_argument(
+        "--method_name", type=str, help="Name of the method used for generating images."
+    )
+    parser.add_argument(
+        "--checkpoint_steps",
+        type=int,
+        required=False,
+        default=None,
+        help="Number of steps used for training the model.",
+    )
 
     args = parser.parse_args()
 
