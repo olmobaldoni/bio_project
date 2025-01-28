@@ -1,4 +1,7 @@
 # folders
+.ruff_cache/
+__pycache__/
+
 evaluation-results/
 fine-tuned-models/
 generated-images/

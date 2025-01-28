@@ -1,0 +1,7 @@
+Model output directory: /work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds/negative
+Generated images directory: /work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/generated_data/negative
+Model name: runwayml/stable-diffusion-v1-5
+Placeholder token: <*>
+Initializer token: negative
+Hyperparameters: {'resolution': 512, 'train_batch_size': 1, 'gradient_accumulation_steps': 4, 'max_train_steps': 2000, 'learning_rate': 0.0005, 'lr_scheduler': 'constant', 'lr_warmup_steps': 0, 'num_inference_steps': 50, 'guidance_scale': 7.5, 'seed': 42}
+Running textual inversion training for the target images in /work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data/negative.

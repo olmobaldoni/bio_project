@@ -1,0 +1,2 @@
+target_images_dirs: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data"
+train_log_dir: "/homes/obaldoni/bio_project/training-logs"
