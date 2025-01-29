@@ -77,6 +77,7 @@ def run_training(
     )
     return os.path.exists(f"{model_output_dir}/{weight_name}")
 
+
 def main(
     target_images_dir,
     initializer_token=None,
@@ -124,16 +125,24 @@ def main(
     if no_train:
         print(f"Skipping training for the target images in {target_images_dir}.\n")
         if not os.path.exists(model_output_dir):
-            sys.exit(f"Model output directory {model_output_dir} does not exist. Exiting.")
+            sys.exit(
+                f"Model output directory {model_output_dir} does not exist. Exiting."
+            )
 
         with open(train_log, "a") as f:
-            f.write(f"Skipping training for the target images in {target_images_dir}.\n")
+            f.write(
+                f"Skipping training for the target images in {target_images_dir}.\n"
+            )
 
         model_training_successful = True
     elif not resume_checkpoint:
-        print(f"Running textual inversion training for the target images in {target_images_dir}.\n")
+        print(
+            f"Running textual inversion training for the target images in {target_images_dir}.\n"
+        )
         with open(train_log, "a") as f:
-            f.write(f"Running textual inversion training for the target images in {target_images_dir}.\n")
+            f.write(
+                f"Running textual inversion training for the target images in {target_images_dir}.\n"
+            )
 
         model_training_successful = run_training(
             target_images_dir,
@@ -170,6 +179,7 @@ def main(
     with open(train_log, "a") as f:
         f.write("Training completed successfully\n")
 
+
 def run_textual_inversion(target_images_dir: str):
     target_images_dir_name = target_images_dir.split("/")[-1]
 
@@ -189,7 +199,7 @@ def run_textual_inversion(target_images_dir: str):
     if initializer_token is None:
         initializer_token = target_images_dir_name
 
-    log_file = f"{config["train_log_dir"]}/{target_dir}.log"
+    log_file = f"{config['train_log_dir']}/{target_dir}.log"
 
     logger.info(f"Model output directory: {model_output_dir}\n")
     logger.info(f"Generated images directory: {generated_images_dir}\n")
@@ -199,9 +209,7 @@ def run_textual_inversion(target_images_dir: str):
     logger.info(f"Hyperparameters: {HYPERPARAMETERS}\n")
 
 
-
 if __name__ == "__main__":
-
     target_images_dirs = config["target_images_dirs"]
 
     # target_images_dirs = r"/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data"
@@ -212,9 +220,6 @@ if __name__ == "__main__":
     for target_dir in os.listdir(target_images_dirs):
         logger.info(f"Running training for {target_dir}")
         run_textual_inversion(os.path.join(target_images_dirs, target_dir))
-
-    
-
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--target_images_dir", type=str, required=True)
@@ -227,8 +232,12 @@ if __name__ == "__main__":
     parser.add_argument("--initializer_token", type=str, required=False)
     parser.add_argument("--generated_images_dir", type=str, required=False)
     parser.add_argument("--no_train", type=bool, required=False, default=False)
-    parser.add_argument("--save_as_full_pipeline", type=bool, required=False, default=False)
-    parser.add_argument("--no_safe_serialization", type=bool, required=False, default=False)
+    parser.add_argument(
+        "--save_as_full_pipeline", type=bool, required=False, default=False
+    )
+    parser.add_argument(
+        "--no_safe_serialization", type=bool, required=False, default=False
+    )
     parser.add_argument("--resume_checkpoint", type=str, required=False)
     args = parser.parse_args()
 

@@ -35,7 +35,6 @@ def main():
         shutil.rmtree(negative_dir)
     os.makedirs(negative_dir)
 
-
     # Load PatchCamelyon dataset from HF Hub
     ds = datasets.load_dataset(
         "1aurent/PatchCamelyon", revision="main", split="test", streaming=True
@@ -57,7 +56,7 @@ def main():
             image = image.resize(new_size, resample=Image.BICUBIC)
             image.save(os.path.join(negative_dir, f"pcam_neg_{neg_count}.png"))
             neg_count += 1
-        
+
         if pos_count == 100 and neg_count == 100:
             logger.info("100 positive and 100 negative images generated")
             break

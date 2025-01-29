@@ -1,2 +1,25 @@
-target_images_dirs: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data"
-train_log_dir: "/homes/obaldoni/bio_project/training-logs"
+data:
+  target_images_dirs: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data"
+  generated_images_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/generated_data"
+
+logs_dir: "/homes/obaldoni/bio_project/textual_inversion/logs"
+
+hparams:
+  resolution: 512
+  train_batch_size: 1
+  gradient_accomulation_steps: 4
+  max_train_steps: 2000
+  learning_rate: 5.0e-4
+  lr_scheduler: "constant"
+  lr_warmup_steps: 0
+  num_inference_steps: 50
+  guidance_scale: 7.5
+  seed: 42
+
+stable_diffusion:
+  model_name: "runwayml/stable-diffusion-v1-5"
+
+embeddings:
+  output_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds"
+
+

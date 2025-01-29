@@ -34,4 +34,7 @@ if __name__ == "__main__":
 
     # per ogni subfolder viene lanciato il main
     for target_dir in os.listdir(target_images_dirs):
-        main(os.path.join(target_images_dirs, target_dir), train_log=f"{getcwd()}/training-logs/{target_dir}.log")
+        main(
+            os.path.join(target_images_dirs, target_dir),
+            train_log=f"{getcwd()}/training-logs/{target_dir}.log",
+        )
