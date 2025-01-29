@@ -1,0 +1,3 @@
+data:
+  positive_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data/positive/"
+  negative_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data/negative/"
