@@ -1,6 +1,7 @@
 # folders
 .ruff_cache/
 __pycache__/
+slurm*
 
 evaluation-results/
 fine-tuned-models/

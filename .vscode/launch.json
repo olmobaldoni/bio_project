@@ -9,7 +9,7 @@
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/training-scripts/textual-inversion/run_all_textual_inversion.py",
+            "program": "${workspaceFolder}/textual_inversion/train_accelerate.py",
             "console": "integratedTerminal"
         }
     ]

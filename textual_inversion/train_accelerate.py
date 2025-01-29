@@ -221,16 +221,8 @@ def run_accelerate(
 
     os.system(command)
 
-    if placeholder_token == "<pcam_pos>":
-        weight_name = (
-            "pcam_pos.bin" if no_safe_serialization else "pcam_pos.safetensors"
-        )
-    elif placeholder_token == "<pcam_neg>":
-        weight_name = (
-            "pcam_neg.bin" if no_safe_serialization else "pcam_neg.safetensors"
-        )        
+    return os.path.exists(f"{embeddings_output_dir}/learned_embeds.bin")
 
-    return os.path.exists(f"{embeddings_output_dir}/{weight_name}")
 
 
 def run_textual_inversion(target_images_dir: str):
@@ -275,7 +267,7 @@ def run_textual_inversion(target_images_dir: str):
         placeholder_token=placeholder_token,
         hyperparameters=HYPERPARAMETERS,
         save_as_full_pipeline=False,
-        no_safe_serialization=False
+        no_safe_serialization=True,
     )
 
     if train:
