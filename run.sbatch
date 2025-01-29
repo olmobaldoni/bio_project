@@ -11,8 +11,6 @@
 #SBATCH -o slurm-%j.out
 #SBATCH --constraint="gpu_2080Ti_11G" 
 
-
-
 # Attiva l'ambiente conda in cui hai installato PyTorch
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -33,4 +31,4 @@ unset __conda_setup
 conda activate bio_env
 export PYTHONPATH='/usr/local/anaconda3/bin/python' # Modifica percorso Python se necessario
 
-python /homes/obaldoni/bio_project/training-scripts/textual-inversion/run_all_textual_inversion.py
+python /homes/obaldoni/bio_project/textual_inversion/train_accelerate.py
