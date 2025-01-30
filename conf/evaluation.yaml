@@ -1,0 +1,5 @@
+data:
+  target_images_dirs: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data"
+  generated_images_dirs: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/generated_data"
+
+logs_dir: "/homes/obaldoni/bio_project/textual_inversion/logs"

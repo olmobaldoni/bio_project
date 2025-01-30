@@ -26,69 +26,7 @@ HYPERPARAMETERS = {
     "num_generations": config["hparams"]["num_generations"],
 }
 
-# BASIC_PROMPT = "A photo of a <placeholder>"ù
-
 BASIC_PROMPT = "<placeholder>"
-
-# def run_inference(
-#     generated_images_dir,
-#     method,
-#     target_name,
-#     placeholder_token="<*>",
-#     hyperparameters=None,
-#     model_path=DEFAULT_MODEL_NAME,
-#     learned_embeddings_path=None,
-#     checkpoint_steps=None,
-# ):
-#     if hyperparameters is None:
-#         hyperparameters = HYPERPARAMETERS
-#     print(f"Running inference for {target_name} from method {method}")
-#     print(f"Model path: {model_path}")
-#     print(f"Learned embeddings path: {learned_embeddings_path}")
-#     print(f"Checkpoint steps: {checkpoint_steps}")
-
-#     model_id = model_path
-#     if torch.cuda.is_available():
-#         pipe = StableDiffusionPipeline.from_pretrained(
-#             DEFAULT_MODEL_NAME, torch_dtype=torch.float16
-#         ).to("cuda")
-#     else:
-#         pipe = StableDiffusionPipeline.from_pretrained(model_id)
-
-#     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
-
-#     if method == "textual-inversion":
-#         weight_name = (
-#             f"learned_embeds-steps-{checkpoint_steps}.bin"
-#             if checkpoint_steps
-#             else "learned_embeds.bin"
-#         )
-#         pipe.load_textual_inversion(
-#             learned_embeddings_path, weight_name=weight_name, local_files_only=True
-#         )
-
-#     subdir = generated_images_dir + f"/{method}"
-#     if checkpoint_steps:
-#         subdir += f"-step-{checkpoint_steps}"
-#     if not os.path.exists(subdir):
-#         os.makedirs(subdir)
-#     subdir += f"/{target_name}/"
-#     if not os.path.exists(subdir):
-#         os.makedirs(subdir)
-#     subdir_basic = os.path.join(subdir, "basic")
-#     if not os.path.exists(subdir_basic):
-#         os.makedirs(subdir_basic)
-
-#     print(f"Saving images to {subdir}...")
-
-#     for i in range(hyperparameters["num_generations"]):
-#         image = pipe(
-#             BASIC_PROMPT.replace("<placeholder>", placeholder_token),
-#             num_inference_steps=hyperparameters["num_inference_steps"],
-#             guidance_scale=hyperparameters["guidance_scale"],
-#         ).images[0]
-
-#         image.save(os.path.join(subdir_basic, f"image_{i}.png"))
 
 
 def run_inference_v2(generated_images_dir: str):
@@ -116,6 +54,8 @@ def run_inference_v2(generated_images_dir: str):
         embeddings_output_dir, weight_name=weight_name, local_files_only=True
     )
 
+    pipe.safety_checker = None
+
     if generated_images_dir_name == "positive":
         placeholder_token = "<pcam_pos>"
     elif generated_images_dir_name == "negative":
@@ -141,7 +81,9 @@ def run_inference_v2(generated_images_dir: str):
         elif generated_images_dir_name == "negative":
             file_name = "pcam_neg"
 
-        logger.info(f"Saving image: {os.path.join(generated_images_dir, f'{file_name}_{i}.png')}")
+        logger.info(
+            f"Saving image: {os.path.join(generated_images_dir, f'{file_name}_{i}.png')}"
+        )
         image.save(os.path.join(generated_images_dir, f"{file_name}_{i}.png"))
 
 

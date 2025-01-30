@@ -7,7 +7,7 @@ logs_dir: "/homes/obaldoni/bio_project/textual_inversion/logs"
 hparams:
   num_inference_steps: 50
   guidance_scale: 7.5
-  num_generations: 5
+  num_generations: 100
 
 stable_diffusion:
   model_name: "runwayml/stable-diffusion-v1-5"

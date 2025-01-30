@@ -31,4 +31,4 @@ unset __conda_setup
 conda activate bio_env
 export PYTHONPATH='/usr/local/anaconda3/bin/python' # Modifica percorso Python se necessario
 
-python /homes/obaldoni/bio_project/textual_inversion/train_accelerate.py
+python /homes/obaldoni/bio_project/textual_inversion/eval.py
