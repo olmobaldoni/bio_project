@@ -1,0 +1,16 @@
+data:
+  target_images_dirs: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data"
+  generated_images_dirs: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/generated_data"
+
+logs_dir: "/homes/obaldoni/bio_project/textual_inversion/logs"
+
+hparams:
+  num_inference_steps: 50
+  guidance_scale: 7.5
+  num_generations: 5
+
+stable_diffusion:
+  model_name: "runwayml/stable-diffusion-v1-5"
+
+embeddings:
+  output_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds"

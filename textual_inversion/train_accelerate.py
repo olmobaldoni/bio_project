@@ -80,111 +80,9 @@ def run_training(
     elif placeholder_token == "<pcam_neg>":
         weight_name = (
             "pcam_neg.bin" if no_safe_serialization else "pcam_neg.safetensors"
-        )        
+        )
 
     return os.path.exists(f"{model_output_dir}/{weight_name}")
-
-
-# def main(
-#     target_images_dir,
-#     initializer_token=None,
-#     model_output_dir=None,
-#     model_name=DEFAULT_MODEL_NAME,
-#     placeholder_token="<*>",
-#     generated_images_dir=None,
-#     no_train=False,
-#     train_log="training.log",
-#     save_as_full_pipeline=False,
-#     no_safe_serialization=False,
-#     resume_checkpoint=None,
-# ):
-#     target_images_dir_name = target_images_dir.split("/")[-1]
-
-#     if model_output_dir is None:
-#         model_output_dir = f"/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds/{target_images_dir_name}"
-
-#     if generated_images_dir is None:
-#         generated_images_dir = f"/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/generated_data/{target_images_dir_name}"
-
-#     # Clear and recreate the generated images directory
-#     os.system(f"rm -rf {generated_images_dir}")
-#     os.system(f"mkdir -p {generated_images_dir}")
-
-#     # If initializer token is not provided, use the directory name
-#     if initializer_token is None:
-#         initializer_token = target_images_dir_name
-
-#     print(f"Model output directory: {model_output_dir}\n")
-#     print(f"Generated images directory: {generated_images_dir}\n")
-#     print(f"Model name: {model_name}\n")
-#     print(f"Placeholder token: {placeholder_token}\n")
-#     print(f"Initializer token: {initializer_token}\n")
-#     print(f"Hyperparameters: {HYPERPARAMETERS}\n")
-
-#     with open(train_log, "w") as f:
-#         f.write(f"Model output directory: {model_output_dir}\n")
-#         f.write(f"Generated images directory: {generated_images_dir}\n")
-#         f.write(f"Model name: {model_name}\n")
-#         f.write(f"Placeholder token: {placeholder_token}\n")
-#         f.write(f"Initializer token: {initializer_token}\n")
-#         f.write(f"Hyperparameters: {HYPERPARAMETERS}\n")
-
-#     if no_train:
-#         print(f"Skipping training for the target images in {target_images_dir}.\n")
-#         if not os.path.exists(model_output_dir):
-#             sys.exit(
-#                 f"Model output directory {model_output_dir} does not exist. Exiting."
-#             )
-
-#         with open(train_log, "a") as f:
-#             f.write(
-#                 f"Skipping training for the target images in {target_images_dir}.\n"
-#             )
-
-#         model_training_successful = True
-#     elif not resume_checkpoint:
-#         print(
-#             f"Running textual inversion training for the target images in {target_images_dir}.\n"
-#         )
-#         with open(train_log, "a") as f:
-#             f.write(
-#                 f"Running textual inversion training for the target images in {target_images_dir}.\n"
-#             )
-
-#         model_training_successful = run_training(
-#             target_images_dir,
-#             model_output_dir,
-#             model_name,
-#             placeholder_token,
-#             initializer_token,
-#             HYPERPARAMETERS,
-#             save_as_full_pipeline,
-#             no_safe_serialization,
-#         )
-#     else:
-#         print(f"Resuming training from checkpoint {resume_checkpoint}.\n")
-#         with open(train_log, "a") as f:
-#             f.write(f"Resuming training from checkpoint {resume_checkpoint}.\n")
-
-#         model_training_successful = run_training(
-#             target_images_dir,
-#             model_output_dir,
-#             model_name,
-#             placeholder_token,
-#             initializer_token,
-#             HYPERPARAMETERS,
-#             save_as_full_pipeline,
-#             no_safe_serialization,
-#             resume_checkpoint,
-#         )
-
-#     if not model_training_successful:
-#         with open(train_log, "a") as f:
-#             f.write("Model training failed. Exiting.\n")
-#         sys.exit("Model training failed. Exiting.")
-
-#     with open(train_log, "a") as f:
-#         f.write("Training completed successfully\n")
 
 
 def run_accelerate(
@@ -222,7 +120,6 @@ def run_accelerate(
     os.system(command)
 
     return os.path.exists(f"{embeddings_output_dir}/learned_embeds.bin")
-
 
 
 def run_textual_inversion(target_images_dir: str):
@@ -275,6 +172,7 @@ def run_textual_inversion(target_images_dir: str):
     else:
         logger.info("Training failed")
 
+
 def main():
     target_images_dirs = config["data"]["target_images_dirs"]
 
@@ -287,5 +185,6 @@ def main():
         run_textual_inversion(os.path.join(target_images_dirs, target_dir))
 
 
+# TODO: remove generated images directory
 if __name__ == "__main__":
     main()
