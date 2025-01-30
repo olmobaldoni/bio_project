@@ -141,7 +141,7 @@ def run_inference_v2(generated_images_dir: str):
         elif generated_images_dir_name == "negative":
             file_name = "pcam_neg"
 
-        logger.info(f"Saving image: {os.path.join(generated_images_dir, f"{file_name}_{i}.png")}")
+        logger.info(f"Saving image: {os.path.join(generated_images_dir, f'{file_name}_{i}.png')}")
         image.save(os.path.join(generated_images_dir, f"{file_name}_{i}.png"))
 
 
