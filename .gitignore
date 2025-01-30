@@ -2,6 +2,7 @@
 .ruff_cache/
 __pycache__/
 slurm*
+textual_inversion/logs/
 
 evaluation-results/
 fine-tuned-models/
