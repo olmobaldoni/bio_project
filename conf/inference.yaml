@@ -5,8 +5,8 @@ data:
 logs_dir: "/homes/obaldoni/bio_project/textual_inversion/logs"
 
 hparams:
-  num_inference_steps: 50
-  guidance_scale: 7.5
+  num_inference_steps: 100
+  guidance_scale: 2
   num_generations: 100
 
 stable_diffusion:

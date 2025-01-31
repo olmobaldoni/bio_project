@@ -29,7 +29,7 @@ HYPERPARAMETERS = {
 BASIC_PROMPT = "<placeholder>"
 
 
-def run_inference_v2(generated_images_dir: str):
+def run_inference(generated_images_dir: str):
     model_name = config["stable_diffusion"]["model_name"]
 
     generated_images_dir_name = generated_images_dir.split("/")[-1]
@@ -96,7 +96,7 @@ def main():
 
     for target_dir in os.listdir(generated_images_dirs):
         logger.info(f"Running inference for {target_dir}")
-        run_inference_v2(os.path.join(generated_images_dirs, target_dir))
+        run_inference(os.path.join(generated_images_dirs, target_dir))
 
 
 if __name__ == "__main__":
