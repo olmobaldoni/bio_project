@@ -10,7 +10,7 @@ hparams:
   num_generations: 100
 
 stable_diffusion:
-  model_name: "runwayml/stable-diffusion-v1-5"
+  model_name: "stabilityai/stable-diffusion-2-base"
 
 embeddings:
   output_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds"

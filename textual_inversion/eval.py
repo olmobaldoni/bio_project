@@ -38,10 +38,11 @@ def check_directory(dir_path: str) -> bool:
         return False
     return True
 
+
 def load_dir_as_tensor(dir_path):
     if not check_directory(dir_path):
         raise ValueError(f"Invalid directory: {dir_path}")
-    
+
     images = []
     dir_path = Path(dir_path)
     for image_path in dir_path.rglob("*.png"):
@@ -56,6 +57,7 @@ def load_dir_as_tensor(dir_path):
 
     batch_tensor = torch.from_numpy(np.concatenate(images)).to(torch.uint8)
     return batch_tensor
+
 
 def run_evaluation(target_image_dir: str, generated_image_dir: str):
     for dir_path in [target_image_dir, generated_image_dir]:
@@ -100,12 +102,12 @@ def main():
         logger.info("Processing directory pair:")
         logger.info(f"Target: {target_image_dir}")
         logger.info(f"Generated: {generated_images_dir}")
-        
+
         fid_value, ins_value = run_evaluation(
             os.path.join(target_images_dirs, target_image_dir),
             os.path.join(generated_images_dirs, generated_images_dir),
         )
-    
+
     logger.info("Evaluation process completed.")
 
 

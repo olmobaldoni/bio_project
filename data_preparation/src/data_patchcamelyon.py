@@ -19,8 +19,8 @@ with open("conf/data_preparation.yaml", "r") as f:
 
 def main():
     try:
-        positive_dir = config["data"]["positive_dir"]
-        negative_dir = config["data"]["negative_dir"]
+        positive_dir = config["data"]["patchcamelyon"]["positive_dir"]
+        negative_dir = config["data"]["patchcamelyon"]["negative_dir"]
     except KeyError as e:
         logger.error(f"Missing key in configuration file: {e}")
         return

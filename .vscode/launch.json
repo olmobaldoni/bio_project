@@ -9,7 +9,7 @@
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/textual_inversion/train_accelerate.py",
+            "program": "${workspaceFolder}/data_preparation/src/data_chexpert.py",
             "console": "integratedTerminal"
         }
     ]

@@ -12,14 +12,15 @@ hparams:
   learning_rate: 5.0e-4
   lr_scheduler: "constant"
   lr_warmup_steps: 0
-  num_inference_steps: 50
-  guidance_scale: 7.5
+  num_inference_steps: 100
+  guidance_scale: 2
   seed: 42
 
 stable_diffusion:
-  model_name: "runwayml/stable-diffusion-v1-5"
+  model_name: "stabilityai/stable-diffusion-2-base"
 
 embeddings:
   output_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds"
 
+scheduler: "DPM++ 2M" # "DPM++ 2M Karras", "Euler Ancestral"
 
