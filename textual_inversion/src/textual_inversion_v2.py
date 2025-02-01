@@ -784,7 +784,7 @@ def main():
             use_karras_sigmas=True,
         )
     elif scheduler == "Euler Ancestral":
-        noise_scheduler == EulerAncestralDiscreteScheduler.from_pretrained(
+        noise_scheduler = EulerAncestralDiscreteScheduler.from_pretrained(
             args.pretrained_model_name_or_path,
             subfolder="scheduler",
         )

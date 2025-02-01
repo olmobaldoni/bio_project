@@ -95,7 +95,7 @@ def run_accelerate(
     save_as_full_pipeline: bool = False,
     no_safe_serialization: bool = False,
 ):
-    command = f'accelerate launch /homes/obaldoni/bio_project/textual_inversion/src/textual_inversion.py \
+    command = f'accelerate launch /homes/obaldoni/bio_project/textual_inversion/src/textual_inversion_v2.py \
         --pretrained_model_name_or_path={model_name} \
         --train_data_dir={target_images_dir} \
         --learnable_property="object" \
@@ -185,6 +185,5 @@ def main():
         run_textual_inversion(os.path.join(target_images_dirs, target_dir))
 
 
-# TODO: remove generated images directory
 if __name__ == "__main__":
     main()
