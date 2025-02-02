@@ -43,12 +43,29 @@ from torchvision import transforms
 from tqdm.auto import tqdm
 from transformers import CLIPTextModel, CLIPTokenizer
 
+### start personal imports
+import yaml
+
+### end personal imports
+with open("conf/textual_inversion.yaml", "r") as f:
+    config = yaml.safe_load(f)
+
+try:
+    scheduler = config["scheduler"]
+except KeyError:
+    raise NotImplementedError("Scheduler configuration is missing in the YAML file.")
+
+if scheduler == "DPM++ 2M" or scheduler == "DPM++ 2M Karras":
+    from diffusers import DPMSolverMultistepScheduler
+elif scheduler == "Euler Ancestral":
+    from diffusers import EulerAncestralDiscreteScheduler
+
 import diffusers
 from diffusers import (
     AutoencoderKL,
-    DDPMScheduler,
+    # DDPMScheduler,
     DiffusionPipeline,
-    DPMSolverMultistepScheduler,
+    # DPMSolverMultistepScheduler,
     StableDiffusionPipeline,
     UNet2DConditionModel,
 )
@@ -750,10 +767,28 @@ def main():
             args.pretrained_model_name_or_path, subfolder="tokenizer"
         )
 
-    # Load scheduler and models
-    noise_scheduler = DDPMScheduler.from_pretrained(
-        args.pretrained_model_name_or_path, subfolder="scheduler"
-    )
+    # # Load scheduler and models
+    # noise_scheduler = DDPMScheduler.from_pretrained(
+    #     args.pretrained_model_name_or_path, subfolder="scheduler"
+    # )
+
+    if scheduler == "DPM++ 2M":
+        noise_scheduler = DPMSolverMultistepScheduler.from_pretrained(
+            args.pretrained_model_name_or_path,
+            subfolder="scheduler",
+        )
+    elif scheduler == "DPM++ 2M Karras":
+        noise_scheduler = DPMSolverMultistepScheduler.from_pretrained(
+            args.pretrained_model_name_or_path,
+            subfolder="scheduler",
+            use_karras_sigmas=True,
+        )
+    elif scheduler == "Euler Ancestral":
+        noise_scheduler = EulerAncestralDiscreteScheduler.from_pretrained(
+            args.pretrained_model_name_or_path,
+            subfolder="scheduler",
+        )
+
     text_encoder = CLIPTextModel.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="text_encoder",

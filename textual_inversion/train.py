@@ -95,7 +95,7 @@ def run_accelerate(
     save_as_full_pipeline: bool = False,
     no_safe_serialization: bool = False,
 ):
-    command = f'accelerate launch /homes/obaldoni/bio_project/textual_inversion/src/textual_inversion_v2.py \
+    command = f'accelerate launch /homes/obaldoni/bio_project/textual_inversion/src/textual_inversion.py \
         --pretrained_model_name_or_path={model_name} \
         --train_data_dir={target_images_dir} \
         --learnable_property="object" \
@@ -104,7 +104,7 @@ def run_accelerate(
         --train_batch_size={hyperparameters["train_batch_size"]} \
         --gradient_accumulation_steps={hyperparameters["gradient_accumulation_steps"]} \
         --max_train_steps={hyperparameters["max_train_steps"]} \
-        --learning_rate={hyperparameters["learning_rate"]} --scale_lr \
+        --learning_rate={hyperparameters["learning_rate"]} \
         --lr_scheduler="{hyperparameters["lr_scheduler"]}" \
         --lr_warmup_steps={hyperparameters["lr_warmup_steps"]} \
         --enable_xformers_memory_efficient_attention \
