@@ -1,5 +1,5 @@
 import os
-from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
+from diffusers import StableDiffusionPipeline
 import torch
 import yaml
 import logging
@@ -19,6 +19,16 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 logger.info("Reading config file")
+
+try:
+    scheduler = config["scheduler"]
+except KeyError:
+    raise NotImplementedError("Scheduler configuration is missing in the YAML file.")
+
+if scheduler == "DPM++ 2M" or scheduler == "DPM++ 2M Karras":
+    from diffusers import DPMSolverMultistepScheduler
+elif scheduler == "Euler Ancestral":
+    from diffusers import EulerAncestralDiscreteScheduler
 
 HYPERPARAMETERS = {
     "num_inference_steps": config["hparams"]["num_inference_steps"],
@@ -46,7 +56,17 @@ def run_inference(generated_images_dir: str):
     else:
         pipe = StableDiffusionPipeline.from_pretrained(model_name)
 
-    pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+    if scheduler == "DPM++ 2M":
+        pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+    elif scheduler == "DPM++ 2M Karras":
+        pipe.scheduler = DPMSolverMultistepScheduler.from_config(
+            pipe.scheduler.config,
+            use_karras_sigmas=True,
+        )
+    elif scheduler == "Euler Ancestral":
+        pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(
+            pipe.scheduler.config
+        )
 
     weight_name = "learned_embeds.bin"
 
