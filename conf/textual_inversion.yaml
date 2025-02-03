@@ -8,12 +8,12 @@ hparams:
   resolution: 512
   train_batch_size: 1
   gradient_accomulation_steps: 4
-  max_train_steps: 50000
+  max_train_steps: 2000
   learning_rate: 0.005
   lr_scheduler: "constant"
   lr_warmup_steps: 0
-  num_inference_steps: 100
-  guidance_scale: 2
+  num_inference_steps: 30
+  guidance_scale: 7.5
   seed: 42
 
 stable_diffusion:

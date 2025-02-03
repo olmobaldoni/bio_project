@@ -1,9 +1,10 @@
 data:
+  num_images: 100
   patchcamelyon:
     positive_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data/positive/"
     negative_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/data/negative/"
   chexpert:
-    cardiomegaly_dir: "/work/ai4bio2023/ai4bio_obaldoni/CheXpert/data/cardiomegaly"
-    edema_dir: "/work/ai4bio2023/ai4bio_obaldoni/CheXpert/data/edema"
-    pneumonia_dir: "/work/ai4bio2023/ai4bio_obaldoni/CheXpert/data/pneumonia"
-    fracture_dir: "/work/ai4bio2023/ai4bio_obaldoni/CheXpert/data/fracture"
+    cardiomegaly_dir: "/work/ai4bio2023/ai4bio_obaldoni/CheXpert/data/cardiomegaly/"
+    edema_dir: "/work/ai4bio2023/ai4bio_obaldoni/CheXpert/data/edema/"
+    pneumonia_dir: "/work/ai4bio2023/ai4bio_obaldoni/CheXpert/data/pneumonia/"
+    fracture_dir: "/work/ai4bio2023/ai4bio_obaldoni/CheXpert/data/fracture/"
