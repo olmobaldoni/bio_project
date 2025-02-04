@@ -5,7 +5,7 @@ data:
 logs_dir: "/homes/obaldoni/bio_project/textual_inversion/logs"
 
 hparams:
-  num_inference_steps: 30
+  num_inference_steps: 100
   guidance_scale: 7.5
   num_generations: 100
 
@@ -15,4 +15,4 @@ stable_diffusion:
 embeddings:
   output_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds"
 
-scheduler: "Euler Ancestral" # "DPM++ 2M", "DPM++ 2M Karras", "Euler Ancestral"
+scheduler: "DPM++ 2M Karras" # "DPM++ 2M", "DPM++ 2M Karras", "Euler Ancestral"
