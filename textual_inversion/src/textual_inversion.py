@@ -49,15 +49,15 @@ import yaml
 with open("conf/training.yaml", "r") as f:
     config = yaml.safe_load(f)
 
-# try:
-#     scheduler = config["scheduler"]
-# except KeyError:
-#     raise NotImplementedError("Scheduler configuration is missing in the YAML file.")
+try:
+    scheduler = config["scheduler"]
+except KeyError:
+    raise NotImplementedError("Scheduler configuration is missing in the YAML file.")
 
-# if scheduler == "DPM++ 2M" or scheduler == "DPM++ 2M Karras":
-#     from diffusers import DPMSolverMultistepScheduler
-# elif scheduler == "Euler Ancestral":
-#     from diffusers import EulerAncestralDiscreteScheduler
+if scheduler == "DPM++ 2M" or scheduler == "DPM++ 2M Karras":
+    from diffusers import DPMSolverMultistepScheduler
+elif scheduler == "Euler Ancestral":
+    from diffusers import EulerAncestralDiscreteScheduler
 
 
 import diffusers
@@ -779,22 +779,22 @@ def main():
         args.pretrained_model_name_or_path, subfolder="scheduler"
     )
 
-    # if scheduler == "DPM++ 2M":
-    #     noise_scheduler = DPMSolverMultistepScheduler.from_pretrained(
-    #         args.pretrained_model_name_or_path,
-    #         subfolder="scheduler",
-    #     )
-    # elif scheduler == "DPM++ 2M Karras":
-    #     noise_scheduler = DPMSolverMultistepScheduler.from_pretrained(
-    #         args.pretrained_model_name_or_path,
-    #         subfolder="scheduler",
-    #         use_karras_sigmas=True,
-    #     )
-    # elif scheduler == "Euler Ancestral":
-    #     noise_scheduler = EulerAncestralDiscreteScheduler.from_pretrained(
-    #         args.pretrained_model_name_or_path,
-    #         subfolder="scheduler",
-    #     )
+    if scheduler == "DPM++ 2M":
+        noise_scheduler = DPMSolverMultistepScheduler.from_pretrained(
+            args.pretrained_model_name_or_path,
+            subfolder="scheduler",
+        )
+    elif scheduler == "DPM++ 2M Karras":
+        noise_scheduler = DPMSolverMultistepScheduler.from_pretrained(
+            args.pretrained_model_name_or_path,
+            subfolder="scheduler",
+            use_karras_sigmas=True,
+        )
+    elif scheduler == "Euler Ancestral":
+        noise_scheduler = EulerAncestralDiscreteScheduler.from_pretrained(
+            args.pretrained_model_name_or_path,
+            subfolder="scheduler",
+        )
 
     text_encoder = CLIPTextModel.from_pretrained(
         args.pretrained_model_name_or_path,
