@@ -49,24 +49,23 @@ import yaml
 with open("conf/training.yaml", "r") as f:
     config = yaml.safe_load(f)
 
-try:
-    scheduler = config["scheduler"]
-except KeyError:
-    raise NotImplementedError("Scheduler configuration is missing in the YAML file.")
+# try:
+#     scheduler = config["scheduler"]
+# except KeyError:
+#     raise NotImplementedError("Scheduler configuration is missing in the YAML file.")
 
-if scheduler == "DPM++ 2M" or scheduler == "DPM++ 2M Karras":
-    from diffusers import DPMSolverMultistepScheduler
-elif scheduler == "Euler Ancestral":
-    from diffusers import EulerAncestralDiscreteScheduler
-elif scheduler == "":
-    pass
+# if scheduler == "DPM++ 2M" or scheduler == "DPM++ 2M Karras":
+#     from diffusers import DPMSolverMultistepScheduler
+# elif scheduler == "Euler Ancestral":
+#     from diffusers import EulerAncestralDiscreteScheduler
+
 
 import diffusers
 from diffusers import (
     AutoencoderKL,
     DDPMScheduler,
     DiffusionPipeline,
-    # DPMSolverMultistepScheduler,
+    DPMSolverMultistepScheduler,
     StableDiffusionPipeline,
     UNet2DConditionModel,
 )
