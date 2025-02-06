@@ -36,7 +36,7 @@ HYPERPARAMETERS = {
     "num_generations": config["hparams"]["num_generations"],
 }
 
-BASIC_PROMPT = "<placeholder>"
+BASIC_PROMPT = "a photo of a <placeholder>"
 
 
 def run_inference(generated_images_dir: str):

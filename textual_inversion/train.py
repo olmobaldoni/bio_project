@@ -5,7 +5,7 @@ import yaml
 
 import logging
 
-with open("conf/textual_inversion.yaml", "r") as f:
+with open("conf/training.yaml", "r") as f:
     config = yaml.safe_load(f)
 
 # Setup logging
@@ -29,8 +29,8 @@ HYPERPARAMETERS = {
     "learning_rate": config["hparams"]["learning_rate"],
     "lr_scheduler": config["hparams"]["lr_scheduler"],
     "lr_warmup_steps": config["hparams"]["lr_warmup_steps"],
-    "num_inference_steps": config["hparams"]["num_inference_steps"],
-    "guidance_scale": config["hparams"]["guidance_scale"],
+    # "num_inference_steps": config["hparams"]["num_inference_steps"],
+    # "guidance_scale": config["hparams"]["guidance_scale"],
     "seed": config["hparams"]["seed"],
 }
 
