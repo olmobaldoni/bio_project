@@ -36,12 +36,16 @@ def get_parameter_combinations():
     num_inference_steps = inference_config["hparams"]["num_inference_steps"]
     guidance_scale = inference_config["hparams"]["guidance_scale"]
     num_generations = inference_config["hparams"]["num_generations"]
+    embedding_dir = inference_config["embeddings"]["output_dir"]
+
+    embeddings_list = [e for e in os.listdir(embedding_dir) if e.endswith(".bin")]
     
-    for steps, scale in product(num_inference_steps, guidance_scale):
+    for steps, scale, embedding_name in product(num_inference_steps, guidance_scale, embeddings_list):
         yield {
             "num_inference_steps": steps,
             "guidance_scale": scale,
-            "num_generations": num_generations
+            "num_generations": num_generations,
+            "embedding_name": embedding_name
         }
 
 def check_directory(dir_path: str) -> bool:
@@ -127,6 +131,17 @@ def run_inference(pipe, generated_images_dir: str, params: dict):
     logger.info(f"Generating images with parameters: {params}")
     logger.info(f"Saving to: {generated_images_dir}")
 
+    embedding_path = os.path.join(
+        inference_config["embeddings"]["output_dir"], 
+        params["embedding_name"]
+    )
+
+    pipe.load_textual_inversion(
+        embedding_path,
+        weight_name=params["embedding_name"],
+        local_files_only=True
+    )
+
     for i in range(params["num_generations"]):
         image = pipe(
             BASIC_PROMPT.replace("<placeholder>", placeholder_token),
@@ -163,18 +178,6 @@ def main():
         # Generate images for each directory (positive/negative)
         for target_dir in os.listdir(generated_images_dirs):
             gen_dir_path = os.path.join(generated_images_dirs, target_dir)
-            embeddings_path = os.path.join(
-                inference_config["embeddings"]["output_dir"], 
-                target_dir,
-                "learned_embeds.bin"
-            )
-            
-            # Load the specific embedding
-            pipe.load_textual_inversion(
-                embeddings_path, 
-                weight_name="learned_embeds.bin", 
-                local_files_only=True
-            )
             
             # Generate the images
             run_inference(pipe, gen_dir_path, params)
