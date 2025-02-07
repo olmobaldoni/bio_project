@@ -40,25 +40,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
 from tqdm.auto import tqdm
-from transformers import AutoTokenizer
 from transformers import CLIPTextModel, CLIPTokenizer
-
-# ### start personal imports
-# import yaml
-
-# ### end personal imports
-# with open("conf/training.yaml", "r") as f:
-#     config = yaml.safe_load(f)
-
-# try:
-#     scheduler = config["scheduler"]
-# except KeyError:
-#     raise NotImplementedError("Scheduler configuration is missing in the YAML file.")
-
-# if scheduler == "DPM++ 2M" or scheduler == "DPM++ 2M Karras":
-#     from diffusers import DPMSolverMultistepScheduler
-# elif scheduler == "Euler Ancestral":
-#     from diffusers import EulerAncestralDiscreteScheduler
 
 
 import diffusers
@@ -714,45 +696,24 @@ def main():
                 token=args.hub_token,
             ).repo_id
 
-    # # Load tokenizer
-    # if args.tokenizer_name:
-    #     tokenizer = CLIPTokenizer.from_pretrained(args.tokenizer_name)
-    # elif args.pretrained_model_name_or_path:
-    #     tokenizer = CLIPTokenizer.from_pretrained(
-    #         args.pretrained_model_name_or_path, subfolder="tokenizer"
-    #     )
-
-    tokenizer = AutoTokenizer.from_pretrained("vinid/plip")
+    # Load tokenizer
+    if args.tokenizer_name:
+        tokenizer = CLIPTokenizer.from_pretrained(args.tokenizer_name)
+    elif args.pretrained_model_name_or_path:
+        tokenizer = CLIPTokenizer.from_pretrained(
+            args.pretrained_model_name_or_path, subfolder="tokenizer"
+        )
 
     # Load scheduler and models
     noise_scheduler = DDPMScheduler.from_pretrained(
         args.pretrained_model_name_or_path, subfolder="scheduler"
     )
 
-    # if scheduler == "DPM++ 2M":
-    #     noise_scheduler = DPMSolverMultistepScheduler.from_pretrained(
-    #         args.pretrained_model_name_or_path,
-    #         subfolder="scheduler",
-    #     )
-    # elif scheduler == "DPM++ 2M Karras":
-    #     noise_scheduler = DPMSolverMultistepScheduler.from_pretrained(
-    #         args.pretrained_model_name_or_path,
-    #         subfolder="scheduler",
-    #         use_karras_sigmas=True,
-    #     )
-    # elif scheduler == "Euler Ancestral":
-    #     noise_scheduler = EulerAncestralDiscreteScheduler.from_pretrained(
-    #         args.pretrained_model_name_or_path,
-    #         subfolder="scheduler",
-    #     )
-
-    # text_encoder = CLIPTextModel.from_pretrained(
-    #     args.pretrained_model_name_or_path,
-    #     subfolder="text_encoder",
-    #     revision=args.revision,
-    # )
-
-    text_encoder = CLIPTextModel.from_pretrained("vinid/plip")
+    text_encoder = CLIPTextModel.from_pretrained(
+        args.pretrained_model_name_or_path,
+        subfolder="text_encoder",
+        revision=args.revision,
+    )
 
     vae = AutoencoderKL.from_pretrained(
         args.pretrained_model_name_or_path,
