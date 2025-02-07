@@ -40,6 +40,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 from torchvision import transforms
 from tqdm.auto import tqdm
+from transformers import AutoTokenizer
 from transformers import CLIPTextModel, CLIPTokenizer
 
 # ### start personal imports
@@ -713,13 +714,15 @@ def main():
                 token=args.hub_token,
             ).repo_id
 
-    # Load tokenizer
-    if args.tokenizer_name:
-        tokenizer = CLIPTokenizer.from_pretrained(args.tokenizer_name)
-    elif args.pretrained_model_name_or_path:
-        tokenizer = CLIPTokenizer.from_pretrained(
-            args.pretrained_model_name_or_path, subfolder="tokenizer"
-        )
+    # # Load tokenizer
+    # if args.tokenizer_name:
+    #     tokenizer = CLIPTokenizer.from_pretrained(args.tokenizer_name)
+    # elif args.pretrained_model_name_or_path:
+    #     tokenizer = CLIPTokenizer.from_pretrained(
+    #         args.pretrained_model_name_or_path, subfolder="tokenizer"
+    #     )
+
+    tokenizer = AutoTokenizer.from_pretrained("vinid/plip")
 
     # Load scheduler and models
     noise_scheduler = DDPMScheduler.from_pretrained(
@@ -743,11 +746,14 @@ def main():
     #         subfolder="scheduler",
     #     )
 
-    text_encoder = CLIPTextModel.from_pretrained(
-        args.pretrained_model_name_or_path,
-        subfolder="text_encoder",
-        revision=args.revision,
-    )
+    # text_encoder = CLIPTextModel.from_pretrained(
+    #     args.pretrained_model_name_or_path,
+    #     subfolder="text_encoder",
+    #     revision=args.revision,
+    # )
+
+    text_encoder = CLIPTextModel.from_pretrained("vinid/plip")
+
     vae = AutoencoderKL.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="vae",

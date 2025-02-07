@@ -8,7 +8,7 @@ hparams:
   resolution: 512
   train_batch_size: 1
   gradient_accomulation_steps: 4
-  max_train_steps: 10000
+  max_train_steps: 500
   learning_rate: 5.0e-4
   lr_scheduler: "constant"
   lr_warmup_steps: 0
