@@ -534,6 +534,7 @@ def parse_args():
 
     return args
 
+
 imagenet_templates_small = [
     "a photo of a {}",
 ]
@@ -541,6 +542,7 @@ imagenet_templates_small = [
 imagenet_style_templates_small = [
     "a photo of a {}",
 ]
+
 
 class TextualInversionDataset(Dataset):
     def __init__(
