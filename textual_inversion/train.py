@@ -29,8 +29,6 @@ HYPERPARAMETERS = {
     "learning_rate": config["hparams"]["learning_rate"],
     "lr_scheduler": config["hparams"]["lr_scheduler"],
     "lr_warmup_steps": config["hparams"]["lr_warmup_steps"],
-    # "num_inference_steps": config["hparams"]["num_inference_steps"],
-    # "guidance_scale": config["hparams"]["guidance_scale"],
     "seed": config["hparams"]["seed"],
 }
 
