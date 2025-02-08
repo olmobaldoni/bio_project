@@ -190,12 +190,13 @@ def main():
         os.makedirs(results_dir, exist_ok=True)
         results_file = os.path.join(
             results_dir, 
-            f"results_steps_{params['num_inference_steps']}_scale_{params['guidance_scale']}.yaml"
+            f"results_steps_{params['num_inference_steps']}_scale_{params['guidance_scale']}_emb_{params['embedding_name'].replace('.bin', '')}.yaml"
         )
         
         with open(results_file, 'w') as f:
             yaml.dump({
                 "parameters": params,
+                "embedding": params['embedding_name'],
                 "results": results
             }, f)
         
