@@ -13,13 +13,13 @@ from itertools import product
 
 # Load configurations
 with open("conf/inference.yaml", "r") as f:
-    inference_config = yaml.safe_load(f)
+    config = yaml.safe_load(f)
 
-with open("conf/evaluation.yaml", "r") as f:
-    eval_config = yaml.safe_load(f)
+# with open("conf/evaluation.yaml", "r") as f:
+#     eval_config = yaml.safe_load(f)
 
 # Logging setup
-log_file = os.path.join(inference_config["logs_dir"], "textual_inversion.log")
+log_file = os.path.join(config["logs_dir"], "textual_inversion.log")
 logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     datefmt="%m/%d/%Y %H:%M:%S",
@@ -32,12 +32,11 @@ logger.info("Reading config files")
 
 BASIC_PROMPT = "a photo of a <placeholder>"
 
-def get_parameter_combinations():
-    num_inference_steps = inference_config["hparams"]["num_inference_steps"]
-    guidance_scale = inference_config["hparams"]["guidance_scale"]
-    num_generations = inference_config["hparams"]["num_generations"]
-    embedding_dir = inference_config["embeddings"]["output_dir"]
-
+def get_parameter_combinations(embedding_dir: str):
+    num_inference_steps = config["hparams"]["num_inference_steps"]
+    guidance_scale = config["hparams"]["guidance_scale"]
+    num_generations = config["hparams"]["num_generations"]
+    
     embeddings_list = [e for e in os.listdir(embedding_dir) if e.endswith(".bin")]
     
     for steps, scale, embedding_name in product(num_inference_steps, guidance_scale, embeddings_list):
@@ -45,7 +44,8 @@ def get_parameter_combinations():
             "num_inference_steps": steps,
             "guidance_scale": scale,
             "num_generations": num_generations,
-            "embedding_name": embedding_name
+            "embedding_name": embedding_name,
+            "embedding_dir": embedding_dir
         }
 
 def check_directory(dir_path: str) -> bool:
@@ -132,7 +132,7 @@ def run_inference(pipe, generated_images_dir: str, params: dict):
     logger.info(f"Saving to: {generated_images_dir}")
 
     embedding_path = os.path.join(
-        inference_config["embeddings"]["output_dir"], 
+        params["embedding_dir"], 
         params["embedding_name"]
     )
 
@@ -155,9 +155,10 @@ def run_inference(pipe, generated_images_dir: str, params: dict):
         image.save(output_path)
 
 def main():
-    model_name = inference_config["stable_diffusion"]["model_name"]
-    generated_images_dirs = inference_config["data"]["generated_images_dirs"]
-    target_images_dirs = eval_config["data"]["target_images_dirs"]
+    model_name = config["stable_diffusion"]["model_name"]
+    generated_images_dirs = config["data"]["generated_images_dirs"]
+    target_images_dirs = config["data"]["target_images_dirs"]
+    base_embedding_dir = config["embeddings"]["output_dir"]
     
     # Initialize the model only once
     if torch.cuda.is_available():
@@ -171,36 +172,39 @@ def main():
     pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
     pipe.safety_checker = None
     
-    # For each parameter combination
-    for params in get_parameter_combinations():
-        logger.info(f"\nStarting generation with parameters: {params}")
+    # For each directory (positive/negative)
+    for target_dir in os.listdir(generated_images_dirs):
+        # Set up the correct embedding directory
+        embedding_dir = os.path.join(base_embedding_dir, target_dir)
         
-        # Generate images for each directory (positive/negative)
-        for target_dir in os.listdir(generated_images_dirs):
+        # For each parameter combination
+        for params in get_parameter_combinations(embedding_dir):
+            logger.info(f"\nStarting generation with parameters: {params}")
+            
             gen_dir_path = os.path.join(generated_images_dirs, target_dir)
             
             # Generate the images
             run_inference(pipe, gen_dir_path, params)
-        
-        # Evaluate generations for this parameter combination
-        results = evaluate_generations(target_images_dirs, generated_images_dirs)
-        
-        # Save results
-        results_dir = os.path.join(inference_config["logs_dir"], "evaluation_results")
-        os.makedirs(results_dir, exist_ok=True)
-        results_file = os.path.join(
-            results_dir, 
-            f"results_steps_{params['num_inference_steps']}_scale_{params['guidance_scale']}_emb_{params['embedding_name'].replace('.bin', '')}.yaml"
-        )
-        
-        with open(results_file, 'w') as f:
-            yaml.dump({
-                "parameters": params,
-                "embedding": params['embedding_name'],
-                "results": results
-            }, f)
-        
-        logger.info(f"Results saved to: {results_file}")
+            
+            # Evaluate generations for this parameter combination
+            results = evaluate_generations(target_images_dirs, generated_images_dirs)
+            
+            # Save results
+            results_dir = os.path.join(config["logs_dir"], "evaluation_results")
+            os.makedirs(results_dir, exist_ok=True)
+            results_file = os.path.join(
+                results_dir, 
+                f"results_{target_dir}_steps_{params['num_inference_steps']}_scale_{params['guidance_scale']}_emb_{params['embedding_name'].replace('.bin', '')}.yaml"
+            )
+            
+            with open(results_file, 'w') as f:
+                yaml.dump({
+                    "parameters": params,
+                    "embedding": params['embedding_name'],
+                    "results": results
+                }, f)
+            
+            logger.info(f"Results saved to: {results_file}")
 
 if __name__ == "__main__":
     main()
