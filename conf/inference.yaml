@@ -5,16 +5,14 @@ data:
 logs_dir: "/homes/obaldoni/bio_project/textual_inversion/logs"
 
 hparams:
-  # num_inference_steps: 100
-  num_inference_steps: [25, 50, 75, 100]
-  # guidance_scale: 7.5
-  guidance_scale: [3, 4.5, 6, 7.5]
-  num_generations: 2
+  # num_inference_steps: [25, 50, 75, 100]
+  num_inference_steps: [75, 100]
+  # guidance_scale: [3, 4.5, 6, 7.5]
+  guidance_scale: [6, 7.5]
+  num_generations: 100
 
 stable_diffusion:
   model_name: "stabilityai/stable-diffusion-2-base"
 
 embeddings:
   output_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds"
-
-# scheduler: "Euler Ancestral" # "DPM++ 2M", "DPM++ 2M Karras", "Euler Ancestral"
