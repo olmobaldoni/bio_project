@@ -132,13 +132,6 @@ def run_textual_inversion(target_images_dir: str):
         shutil.rmtree(embeddings_output_dir)
     os.makedirs(embeddings_output_dir)
 
-    # generated_images_dir = os.path.join(
-    #     config["data"]["generated_images_dir"], target_images_dir_name
-    # )
-    # if os.path.exists(generated_images_dir):
-    #     shutil.rmtree(generated_images_dir)
-    # os.makedirs(generated_images_dir)
-
     initializer_token = target_images_dir_name
     if initializer_token == "positive":
         placeholder_token = "<pcam_pos>"
@@ -148,7 +141,6 @@ def run_textual_inversion(target_images_dir: str):
     logger.info(f"Target images directory path: {target_images_dir}")
     logger.info(f"Target images directory name: {target_images_dir_name}")
     logger.info(f"Embeddings output directory: {embeddings_output_dir}")
-    # logger.info(f"Generated images directory: {generated_images_dir}")
     logger.info(f"Model name: {model_name}")
     logger.info(f"Initializer token: {initializer_token}")
     logger.info(f"Placeholder token: {placeholder_token}")
