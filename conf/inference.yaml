@@ -6,9 +6,9 @@ logs_dir: "/homes/obaldoni/bio_project/textual_inversion/logs"
 
 hparams:
   # num_inference_steps: [25, 50, 75, 100]
-  num_inference_steps: [75, 100]
+  num_inference_steps: [100]
   # guidance_scale: [3, 4.5, 6, 7.5]
-  guidance_scale: [6, 7.5]
+  guidance_scale: [3, 4.5, 6, 7.5]
   num_generations: 100
 
 stable_diffusion:
@@ -16,3 +16,4 @@ stable_diffusion:
 
 embeddings:
   output_dir: "/work/ai4bio2023/ai4bio_obaldoni/PatchCamelyon/textual_inversion_embeds"
+vis
